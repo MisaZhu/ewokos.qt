@@ -184,13 +184,14 @@ static int ewokosWindowStyle(Qt::WindowFlags flags)
     const bool customized = (flags & Qt::CustomizeWindowHint);
 
     /* Menus, combo dropdowns, tooltips: transient surfaces the WM must not
-       decorate at all.  On xwin the frame carries the title, the buttons and
-       the resize corner, and none of those may appear on a popup. */
+       decorate at all.  On xwin NO_FRAME only drops the border ring, shadow
+       and resize corner, so NO_TITLE is added to suppress the title bar and
+       the buttons too - none of those may appear on a popup. */
     if (type == Qt::Popup || type == Qt::ToolTip || type == Qt::SplashScreen)
-        style |= XWIN_STYLE_NO_FRAME;
+        style |= XWIN_STYLE_NO_FRAME | XWIN_STYLE_NO_TITLE;
 
     if (flags & Qt::FramelessWindowHint)
-        style |= XWIN_STYLE_NO_FRAME;
+        style |= XWIN_STYLE_NO_FRAME | XWIN_STYLE_NO_TITLE;
     if (customized && !(flags & Qt::WindowTitleHint))
         style |= XWIN_STYLE_NO_TITLE;
     /* xwin's only way to say "this window's size is not the user's to change"
